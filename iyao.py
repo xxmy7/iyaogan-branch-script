@@ -8,11 +8,8 @@ from lxml import etree
 import pandas as pd
 
 def get_students() -> list:
-    cookies = {
-
-    }
-
     headers = {
+        'Cookie':'',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'Accept-Language': 'zh-CN,zh;q=0.9',
         'Connection': 'keep-alive',
@@ -24,7 +21,7 @@ def get_students() -> list:
     }
 
     response = requests.get('http://ygxxgcxy.whu.edu.cn/iyaogan/iyaogan_stuser_chaxun/stuser_rudang_chaxun.php',
-                            cookies=cookies, headers=headers, verify=False)
+                            headers=headers, verify=False)
     response.encoding = 'gbk'
     tree = etree.HTML(response.text)
     table = tree.xpath('/html/body/font/table[2]')
@@ -45,11 +42,8 @@ def get_students() -> list:
 
 
 def get_students_rudang(id, stNo):
-    cookies = {
-
-    }
-
     headers = {
+        'Cookie':'',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'Accept-Language': 'zh-CN,zh;q=0.9',
         'Cache-Control': 'max-age=0',
@@ -66,7 +60,7 @@ def get_students_rudang(id, stNo):
     data = f'ID2={id}&stNo={stNo}&submit=%E4%AF%C0%C0'
 
     response = requests.post('http://ygxxgcxy.whu.edu.cn/iyaogan/iyaogan_stuser_chaxun/st_jijifenzi_preview.php',
-                             cookies=cookies, headers=headers, data=data, verify=False)
+                             headers=headers, data=data, verify=False)
     response.encoding='gbk'
     tree = etree.HTML(response.text)
 
