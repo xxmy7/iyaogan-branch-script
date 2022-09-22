@@ -13,8 +13,6 @@ def get_students() -> list:
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
         'Accept-Language': 'zh-CN,zh;q=0.9',
         'Connection': 'keep-alive',
-        # Requests sorts cookies= alphabetically
-        # 'Cookie': 'SECKEY_ABVK=N1LNG1Jl3HHl7oEimBIkgoU/vkUdsqOW2pxI52XRCTw%3D; BMAP_SECKEY=FS16NPSL36E4JfP7y4XV-LFp2XWAPTBVj_kHwZLWDJIcRdaen_s6IjYW8X4S_HprC95CLxkc0BrHL-_j-Qd7hPUQeVup8Vc5d78KS_qL19iqJPZyPghd1OfLHa6fwn6WSSdQiRTQIjS23eWXDsmnQE6Decph6NnNaKykHD3sIixWRbCNy5ce7a_R8TaPZdFS; _ga=GA1.1.123170502.1627529733; _ga_W6TEGCTZ3V=GS1.1.1651071387.2.1.1651071624.37; PHPSESSID=68cpfr78pitkiquepe0hf013pj; iPlanetDirectoryPro=fMueHoseTAxLsqSm3jUpNy',
         'Referer': 'http://ygxxgcxy.whu.edu.cn/iyaogan/iyaogan_left_menu_student.php',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
@@ -49,8 +47,6 @@ def get_students_rudang(id, stNo):
         'Cache-Control': 'max-age=0',
         'Connection': 'keep-alive',
         'Content-Type': 'application/x-www-form-urlencoded',
-        # Requests sorts cookies= alphabetically
-        # 'Cookie': 'SECKEY_ABVK=N1LNG1Jl3HHl7oEimBIkgi9DEyOftOdTWYpaDhP67kE%3D; BMAP_SECKEY=FS16NPSL36E4JfP7y4XV-A7Kq5FF_BjpOgKUFq_QJoaigG9PZQWFmmaZtZV9msFJuHm_Z3h81Kwq4V4REqZsz5uaFHgGf3dNecgz_ZphMs5fMMcGLTl3__-GeqMK0FkNJc5iTmRPoOgczFskHn69GEvKJh0cpHXnEVEXNh3iy2GONkO0f_d4Ulp6JJbeMSSg; _ga=GA1.1.123170502.1627529733; _ga_W6TEGCTZ3V=GS1.1.1651071387.2.1.1651071624.37; PHPSESSID=68cpfr78pitkiquepe0hf013pj; iPlanetDirectoryPro=fMueHoseTAxLsqSm3jUpNy',
         'Origin': 'http://ygxxgcxy.whu.edu.cn',
         'Referer': 'http://ygxxgcxy.whu.edu.cn/iyaogan/iyaogan_stuser_chaxun/stuser_rudang_chaxun.php',
         'Upgrade-Insecure-Requests': '1',
