@@ -1,4 +1,4 @@
-# Author ： 吴弘博
+# Author ： whb
 # 开发时间 : 2022/9/22 8:35
 import pprint
 
@@ -44,6 +44,8 @@ def get_student_rudang_information(student_num):
     shangdangxiaoshijian = tree.xpath('/html/body/form[2]/table[1]/tr[8]/td[1]/input/@value')[0]
     dangxiaohegeshijian = tree.xpath('/html/body/form[2]/table[1]/tr[8]/td[2]/input/@value')[0]
     ifyouxiujieye = tree.xpath('/html/body/form[2]/table[1]/tr[8]/td[3]/select/option[1]')[0].text
+    if ifyouxiujieye == None:  # 如果没上过党校这块是None，得置空，不然传参是None的字符串，请求最后会返回失败
+        ifyouxiujieye = ''
     quedingfazhanduixiangshijian = tree.xpath('/html/body/form[2]/table[1]/tr[8]/td[4]/input/@value')[0]
     jieshaoren1 = tree.xpath('/html/body/form[2]/table[1]/tr[8]/td[5]/input/@value')[0]
     jieshaoren2 = tree.xpath('/html/body/form[2]/table[1]/tr[8]/td[6]/input/@value')[0]
