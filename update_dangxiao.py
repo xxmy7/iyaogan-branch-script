@@ -1,11 +1,9 @@
-# Author ： whb
-# 开发时间 : 2022/9/22 8:35
+# 更新党校结业时间
 import pprint
 
 import requests
 import pandas as pd
 import urllib
-import numpy as np
 from lxml import etree
 
 
@@ -16,6 +14,7 @@ def get_student_rudang_information(student_num):
         'Cache-Control': 'max-age=0',
         'Connection': 'keep-alive',
         'Content-Type': 'application/x-www-form-urlencoded',
+        # Requests sorts cookies= alphabetically
         'Cookie': '',
         'Origin': 'http://ygxxgcxy.whu.edu.cn',
         'Referer': 'http://ygxxgcxy.whu.edu.cn/rssims/rssims_st_dangtuan/st_rudang_edit.php',
@@ -85,51 +84,35 @@ def get_student_rudang_information(student_num):
         "peiyanglianxiren3": peiyanglianxiren3,
         "peiyanglianxiren4": peiyanglianxiren4,
         "zhuanzhengshijian": zhuanzhengshijian,
-        "beizhu3": beizhu3
+        "beizhu3": beizhu3,
+        # "xuehao": stNo,
+        # "xingming": name,
+        # "EDIT": "确认修改"
     }
 
     return student
 
 
-def update_mentor(file_name):
+def update_dangxiao(file_name, sheet_name):
     """
-    修改培养联系人等
+    修改一项的时间
     :param file_name: 导入的excel文件路径，需要按模板
     :return:
     """
-    df = pd.read_excel(file_name, keep_default_na=False,
-                       parse_dates=['递交入党申请时间', '最近推优通过时间', '确定积极分子时间', '党校结业时间', '确定发展对象时间', '吸收预备党员时间', '审批新党员时间',
-                                    '转正时间',
-                                    '转正审批时间'])
+    df = pd.read_excel(file_name, sheet_name=sheet_name, keep_default_na=False)
     # , date_parser=lambda x: pd.to_datetime(x, format='%Y-%m-%d'))
-    # 把空的NaT去掉
-    df['递交入党申请时间'] = np.where(df['递交入党申请时间'].notnull(), df['递交入党申请时间'].dt.strftime('%Y-%m-%d'), '')
-    df['最近推优通过时间'] = np.where(df['最近推优通过时间'].notnull(), df['最近推优通过时间'].dt.strftime('%Y-%m-%d'), '')
-    df['确定积极分子时间'] = np.where(df['确定积极分子时间'].notnull(), df['确定积极分子时间'].dt.strftime('%Y-%m-%d'), '')
-    df['党校结业时间'] = np.where(df['党校结业时间'].notnull(), df['党校结业时间'].dt.strftime('%Y-%m-%d'), '')
-    df['确定发展对象时间'] = np.where(df['确定发展对象时间'].notnull(), df['确定发展对象时间'].dt.strftime('%Y-%m-%d'), '')
-    df['吸收预备党员时间'] = np.where(df['吸收预备党员时间'].notnull(), df['吸收预备党员时间'].dt.strftime('%Y-%m-%d'), '')
-    df['审批新党员时间'] = np.where(df['审批新党员时间'].notnull(), df['审批新党员时间'].dt.strftime('%Y-%m-%d'), '')
-    df['转正时间'] = np.where(df['转正时间'].notnull(), df['转正时间'].dt.strftime('%Y-%m-%d'), '')
-    df['转正审批时间'] = np.where(df['转正审批时间'].notnull(), df['转正审批时间'].dt.strftime('%Y-%m-%d'), '')
 
     students = []
 
     # 这里的数据都是本科生，所以直接搞的本科生第几党支部，新录入的没啥数据，只需要几个参数，其他的需要填完整，不然会全部置空了
     for row in df.index.values:
-        if row == 0:
-            continue
-        stNo = df.iloc[row, 4]
+        stNo = df.iloc[row, 3]
         student = get_student_rudang_information(stNo)
-        # 修改培养联系人和预备期培养人
-        student['peiyangren1'] = df.iloc[row, 11]
-        student['peiyangren2'] = df.iloc[row, 12]
-        student['peiyangren3'] = df.iloc[row, 13]
-        student['peiyangren4'] = df.iloc[row, 14]
-        student['peiyanglianxiren1'] = df.iloc[row, 16]
-        student['peiyanglianxiren2'] = df.iloc[row, 17]
-        student['peiyanglianxiren3'] = df.iloc[row, 18]
-        student['peiyanglianxiren4'] = df.iloc[row, 19]
+        # 修改时间
+        student['dangxiaohegeshijian'] = "2022-11-15"
+        excellent = df.iloc[row, 7]
+        student['zhengzhimianmao'] = '入党积极分子(党校优秀结业)' if excellent == '是' else '入党积极分子(党校合格结业)'
+        student['ifyouxiujieye'] = excellent
         pprint.pprint(student)
         students.append(student)
 
@@ -137,28 +120,31 @@ def update_mentor(file_name):
     print(students)
     print("============================")
     headers = {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'Accept-Language': 'zh-CN,zh;q=0.9',
         'Cache-Control': 'max-age=0',
         'Connection': 'keep-alive',
         'Content-Type': 'application/x-www-form-urlencoded',
+        # Requests sorts cookies= alphabetically
         'Cookie': '',
         'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.42',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
     }
 
     i = 1
     for student in students:
-        data = urllib.parse.urlencode(student, encoding='gb2312')
+        data = urllib.parse.urlencode(student, encoding='gbk')
         print(f'{i} : {student["name"]}的请求表单数据： {data}')
         # 修改信息的页面
         response = requests.post('http://ygxxgcxy.whu.edu.cn/rssims/rssims_st_dangtuan/st_rudang_edit_save.php',
                                  headers=headers, data=data, verify=False)
-        print(response)
+        print("返回结果: ")
+        print(response.text)
         i += 1
 
 
 if __name__ == '__main__':
-    file_name = r"C:\Users\A\Desktop\入党信息.xlsx"
-    update_mentor(file_name)
+    file_name = r"C:\Users\Hongbo\Desktop\党校结业时间.xlsx"
+    sheet_name = 'Sheet1'
+    update_dangxiao(file_name, sheet_name)
     print("修改完成")
