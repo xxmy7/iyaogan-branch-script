@@ -215,6 +215,8 @@ def get_students_rudang(id, stNo):
 
     # 删除空格
     for k in person:
+        if person[k] is None:   # 发现有的方向那一栏写的空，而不是未分方向，系统的问题，如果有空值就跳过
+            continue
         person[k] = person[k].strip()
         person[k] = "".join(person[k].split())
 
